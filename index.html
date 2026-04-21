@@ -6,7 +6,10 @@
     <title>Koda</title>
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="styles.css">
-    <!-- Firebase Compat SDKs (Better for GitHub Pages) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Firebase Compat SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
@@ -46,17 +49,57 @@
                     </div>
                 </div>
             </header>
+
             <main>
+                <div class="search-container glass">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="search-input" placeholder="Search your life...">
+                </div>
+
+                <div class="tabs">
+                    <button id="tab-checklists" class="tab-btn active">Checklists</button>
+                    <button id="tab-notes" class="tab-btn">Notes</button>
+                </div>
+
+                <!-- Checklist Section -->
                 <div id="checklist-section">
                     <div class="add-item-container glass">
-                        <input type="text" id="new-item-title" placeholder="New task...">
+                        <div class="add-item-inputs">
+                            <input type="text" id="new-item-title" placeholder="Add a new task...">
+                            <input type="text" id="new-item-notes" placeholder="Add details (optional)...">
+                        </div>
                         <button id="add-item-btn" class="btn-add">+</button>
                     </div>
-                    <div id="checklist-container"></div>
+                    <div id="checklist-container" class="checklist-list"></div>
+                </div>
+
+                <!-- Notes Section -->
+                <div id="notes-section" class="hidden">
+                    <div class="add-item-container glass note-input-container">
+                        <textarea id="new-note-content" placeholder="Write a new note..."></textarea>
+                        <div id="image-preview-container" class="hidden">
+                            <img id="image-preview" src="" alt="Preview">
+                            <button id="remove-image-btn" class="btn-icon">×</button>
+                        </div>
+                        <div class="note-actions">
+                            <label for="image-upload" class="btn-icon-secondary" title="Add Image">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                            </label>
+                            <input type="file" id="image-upload" accept="image/*" class="hidden">
+                            <button id="add-note-btn" class="btn-add">+</button>
+                        </div>
+                    </div>
+                    <div id="notes-container" class="notes-grid"></div>
                 </div>
             </main>
         </div>
     </div>
+
+    <button id="theme-toggle" title="Toggle Light/Dark Mode">
+        <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </button>
+
     <script src="app.js"></script>
 </body>
 </html>
