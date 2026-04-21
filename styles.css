@@ -687,3 +687,13 @@ body:not(.light-mode) .moon-icon {
     opacity: 0;
     transform: scale(0);
 }
+.btn-secondary.logout svg {
+    filter: drop-shadow(0 0 5px rgba(255, 77, 77, 0.2));
+    transition: transform 0.3s ease;
+}
+
+.btn-secondary.logout:hover svg {
+    transform: translateX(3px);
+    stroke: #ff1a1a;
+    filter: drop-shadow(0 0 8px rgba(255, 77, 77, 0.5));
+}
