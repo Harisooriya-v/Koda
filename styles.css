@@ -1,14 +1,3 @@
-I understand. The "out of the box" look happens when elements are fighting for space. I have redesigned the layout to be much more rigid so that **everything stays perfectly inside the boxes** regardless of your screen size.
-
-### The Fixes:
-1.  **Aligned Header**: Your username and logout icon are now locked side-by-side (no more floating).
-2.  **Strict Boxes**: I've adjusted the math for the padding so items can't "bleed" out of the glass containers.
-3.  **Centered Text**: Fixed the alignment for the app name and tasks.
-4.  **No Wrapping**: Forced the headers and buttons to stay in one row.
-
-**Please replace your `styles.css` on GitHub with this "Locked Layout" version:**
-
-```css
 :root {
     --bg-color: #0f172a;
     --card-bg: rgba(30, 41, 59, 0.7);
@@ -27,89 +16,66 @@ body.light-mode {
     --primary: #0ea5e9;
     --text-main: #1e293b;
     --text-dim: #64748b;
-    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-border: rgba(0, 0, 0, 0.1);
     --grad-bg: radial-gradient(circle at top right, #f8fafc, #f1f5f9);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
-body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; justify-content: center; background: var(--grad-bg); transition: 0.3s; overflow-x: hidden; }
+body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; justify-content: center; background: var(--grad-bg); transition: 0.3s; }
 
-.container { 
-    width: 100%; 
-    max-width: 600px; /* Wider for better spacing */
-    padding: 2rem 1.5rem; 
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
+.container { width: 100%; max-width: 550px; padding: 2rem 1rem; display: flex; flex-direction: column; gap: 1.5rem; }
 .hidden { display: none !important; }
-.glass { background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 1.5rem; }
+.glass { background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 1.5rem; overflow: hidden; }
 
-/* Auth Views */
-.card { padding: 2.5rem; text-align: center; margin-top: 3rem; }
-.auth-logo { width: 140px; margin-bottom: 2rem; }
-
-/* Header - Locked Alignment */
+/* Header - Grid Locked */
 header { width: 100%; }
 .header-content { 
-    display: flex; 
-    justify-content: space-between; 
+    display: grid; 
+    grid-template-columns: 1fr auto; /* Force two distinct sides */
     align-items: center; 
     padding: 1rem 1.5rem; 
+    gap: 1rem;
 }
-.logo-container { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
-.logo-container h1 { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, var(--primary), #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-.app-logo { height: 32px; width: auto; }
+.logo-container { display: flex; align-items: center; gap: 0.75rem; }
+.logo-container h1 { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 0; }
+.app-logo { height: 32px; width: 32px; object-fit: contain; }
 
-.user-info { 
-    display: flex; 
+.user-info { display: flex; align-items: center; gap: 0.75rem; justify-self: end; }
+.username-wrapper { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
+#display-username { font-weight: 600; color: var(--primary); font-size: 0.85rem; }
+
+/* Inputs */
+input, textarea { width: 100%; padding: 0.85rem 1.25rem; border-radius: 0.85rem; border: 1px solid var(--glass-border); background: rgba(15, 23, 42, 0.5); color: white; font-size: 1rem; margin-bottom: 0.75rem; }
+body.light-mode input, body.light-mode textarea { background: white; color: black; }
+
+/* Checklist Items - Grid Locked */
+.checklist-item { 
+    display: grid; 
+    grid-template-columns: auto 1fr auto; /* Checkbox | Text | Trash */
     align-items: center; 
     gap: 1rem; 
-    flex-shrink: 0;
+    padding: 1rem 1.25rem; 
+    margin-bottom: 0.75rem; 
 }
-#display-username { font-weight: 600; color: var(--primary); font-size: 0.85rem; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-/* Buttons */
-.btn-primary { width: 100%; padding: 1rem; border-radius: 0.75rem; border: none; background: var(--primary); color: #0f172a; font-weight: 700; cursor: pointer; }
-.btn-secondary { width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.05); color: var(--text-dim); cursor: pointer; display: flex; align-items: center; justify-content: center; }
-
-/* Search Bar */
-.search-container { display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1.25rem; }
-#search-input { background: transparent; border: none; padding: 0; font-size: 1rem; flex-grow: 1; color: var(--text-main); }
-#search-input:focus { outline: none; }
-
-/* Tabs */
-.tabs { display: flex; gap: 0.5rem; padding: 0 0.5rem; }
-.tab-btn { background: transparent; border: none; color: var(--text-dim); font-size: 0.95rem; font-weight: 700; cursor: pointer; padding: 0.5rem 1rem; border-radius: 0.75rem; }
-.tab-btn.active { color: var(--primary); background: rgba(56, 189, 248, 0.1); }
-
-/* Add Box - Side-by-Side */
-.add-item-container { display: flex; gap: 1rem; padding: 1.25rem; align-items: center; }
-.add-item-inputs { display: flex; flex-direction: column; gap: 0.5rem; flex-grow: 1; }
-.add-item-inputs input { padding: 0.75rem 1rem; margin-bottom: 0; border-radius: 0.75rem; }
-.btn-add { width: 3.5rem; height: 3.5rem; border-radius: 1rem; border: none; background: var(--primary); color: #0f172a; font-size: 2rem; cursor: pointer; flex-shrink: 0; }
-
-/* List Items - Locked Row */
-.checklist-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
-.checkbox { width: 1.4rem; height: 1.4rem; border-radius: 0.5rem; border: 2px solid var(--primary); cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.checkbox { width: 1.4rem; height: 1.4rem; border-radius: 0.5rem; border: 2px solid var(--primary); cursor: pointer; }
 .checkbox.checked { background: var(--primary); }
-.item-content { flex-grow: 1; min-width: 0; } /* min-width 0 prevents text from pushing the box */
-.item-title { font-size: 1rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.item-title.completed { text-decoration: line-through; opacity: 0.5; }
-.btn-delete { background: transparent; border: none; cursor: pointer; font-size: 1.2rem; opacity: 0.4; flex-shrink: 0; }
-.btn-delete:hover { opacity: 1; }
+.item-title { font-size: 1rem; font-weight: 500; word-break: break-word; }
 
-/* Notes Section */
-.note-item { padding: 1.25rem; margin-bottom: 1rem; }
-.note-content { font-size: 1rem; line-height: 1.5; margin-bottom: 1rem; word-wrap: break-word; }
-.note-image { width: 100%; border-radius: 1rem; margin-bottom: 1rem; }
-.note-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-dim); }
+/* Add Boxes */
+.add-item-container { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.btn-add { width: 100%; padding: 0.85rem; border-radius: 0.85rem; border: none; background: var(--primary); color: #0f172a; font-size: 1.5rem; font-weight: 700; cursor: pointer; }
 
-#theme-toggle { position: fixed; bottom: 2rem; right: 2rem; width: 3.5rem; height: 3.5rem; border-radius: 1.25rem; background: var(--card-bg); display: flex; align-items: center; justify-content: center; z-index: 9999; }
-.sun-icon, .moon-icon { position: absolute; }
+/* Notes Specific */
+.note-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; }
+.btn-icon-secondary { padding: 0.5rem; cursor: pointer; color: var(--text-dim); }
+.note-item { padding: 1.5rem; margin-bottom: 1rem; }
+.note-image { width: 100%; border-radius: 1rem; margin-bottom: 1rem; display: block; }
+
+/* Buttons & Tooltips */
+.btn-secondary { width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); cursor: pointer; }
+.btn-primary { width: 100%; padding: 1rem; border-radius: 1rem; border: none; background: var(--primary); color: #0f172a; font-weight: 700; cursor: pointer; }
+
+#theme-toggle { position: fixed; bottom: 2rem; right: 2rem; width: 3.5rem; height: 3.5rem; border-radius: 1.25rem; background: var(--card-bg); display: flex; align-items: center; justify-content: center; z-index: 100; border: 1px solid var(--glass-border); }
+.sun-icon, .moon-icon { position: absolute; stroke: var(--primary); }
 body.light-mode .sun-icon { opacity: 0; }
 body:not(.light-mode) .moon-icon { opacity: 0; }
-```
-
-**After saving this, your Koda will look tight, clean, and perfectly aligned on all screens!** 💎🙌
